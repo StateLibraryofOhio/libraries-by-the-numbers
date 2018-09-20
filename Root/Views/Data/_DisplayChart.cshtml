@@ -1,0 +1,18 @@
+﻿@model StateOfOhioLibrary.Models.ChartDataModel
+@{
+    ViewBag.Title = "Chart ";
+}
+<h2>Chart in MVC</h2>
+@{
+    var filePathName = "~/_ChartFiles/chart01.jpg";
+    var displayPath = "_ChartFiles/chart01.jpg";
+    var myChart = new Chart(width: 200, height: 200)
+        .AddTitle("Country Population")
+        .AddSeries("Default", chartType: "Pie",
+            xValue: Model.ChartDataList, xField: "CountryName",
+            yValues: Model.ChartDataList, yFields: "Population");
+
+    myChart.Save(path: filePathName);
+}
+
+<img src="@displayPath" />

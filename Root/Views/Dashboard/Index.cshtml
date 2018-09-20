@@ -1,0 +1,40 @@
+﻿@using StateOfOhioLibrary.Models;
+@model DashboardModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+}
+
+
+<div class="col-md-12 clearfix">
+    <h1>Dashboard</h1>
+</div>
+
+<div class="container">
+    <div class="col-md-4">
+        <div id="inner-display-area">
+            <div class="iner-display">
+                <h3><a href="/Template">@Model.NoOfTemplates</a></h3>
+                <h4><a href="/Template">TEMPLATES</a></h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div id="inner-display-area">
+            <div class="iner-display iner-display-orange">
+                <h3 class="color-orange"><a href="/Data">@Model.NoOfDatas</a></h3>
+                <h4 class="color-orange"><a href="/Data">DATA SETS</a></h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div id="inner-display-area">
+            <div class="iner-display iner-display-dark">
+                <h3 class="color-dark"><a href="/Data">@Model.NoOfLibraries</a></h3>
+                <h4 class="color-dark"><a href="/Data">LIBRARIES</a></h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+

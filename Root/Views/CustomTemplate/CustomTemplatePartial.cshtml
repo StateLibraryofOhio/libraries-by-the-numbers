@@ -1,0 +1,123 @@
+﻿@using StateOfOhioLibrary.Models;
+@model CustomTemplateModel
+@{
+    var enableAddCustomTemplate = System.Configuration.ConfigurationManager.AppSettings["EnableAddCustomTemplate"];
+}
+@if (enableAddCustomTemplate == "True")
+{
+    <button onclick="ShowAddSection();" class="button-green">New Field</button>
+
+}
+
+<div id="myModal" class="modal fade in" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 670px !important;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="HidePopup();">X</span>
+                <span class="pop-heading" style="float:left"></span>
+            </div>
+            <div style="height:430px !important" class="modal-body">
+                <div id="responsivelogin-form">
+                    <div class="search-panel">
+                        <div id="addPopUpSection" style="display: none;">
+                            <table width="100%" border="0" cellpadding="2" cellspacing="2">
+                                <tr>
+                                    <td width="30%"><label>Field Name:</label></td>
+                                    <td width="70%">
+                                        @Html.DropDownListFor(model => model.CustomColumnId, Model.AvailableCustomColumn, new { @id = "ddlCustomColumnId", @tabindex = "1" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label>Select File:</label></td>
+                                    <td>
+                                        <input type="file" id="txtAttachments" name="txtAttachments" onchange="checkfile(this);" style="border:none; background:none;" tabindex="2" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top"><label class="label-two" style="float:right;padding-right:5px;">Display Text:</label></td>
+                                    <td>
+                                        @Html.TextAreaFor(model => model.ColumnText, new { @id = "txtColumnText", @tabindex = 3, @maxlength = "500", @class = "search-control-Notes-large" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top"><label class="label-two" style="float:right;padding-right:5px;">Notes:</label></td>
+                                    <td>
+                                        @Html.TextAreaFor(model => model.Notes, new { @id = "txtNotes", @tabindex = 3, @maxlength = "500", @class = "search-control-Notes-large" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="center" class="div-space-two">
+                                        <button type="button" id="btnAdd" onclick="Add();" value="Save" class="pop-submit-btn" tabindex="4">Save</button>
+
+
+                                        <a onclick="HidePopup();" style="cursor: pointer;">Cancel</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div id="editPopUpSection" style="display: none;">
+                            <table width="100%" border="0" cellpadding="2" cellspacing="2">
+                                <tr>
+                                    <td width="30%"><label>Field Name:</label></td>
+                                    <td width="70%">
+                                        @Html.DropDownListFor(model => model.CustomColumnId, Model.AvailableCustomColumn, new { @id = "ddlEditCustomColumnId", @tabindex = "1" })
+                                        <input type="hidden" id="hdnCustomTemplateId" />
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td><label>Select File:</label></td>
+                                    <td>
+                                        <input type="file" id="txtEditAttachments" name="txtEditAttachments" onchange="checkfile(this);" style="border:none; background:none;" tabindex="2" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><label id="lblFileName" style="text-align:left;"></label></td>
+                                </tr>
+                                <tr>
+                                    <td valign="top"><label class="label-two" style="float:right;padding-right:5px;">Display Text:</label></td>
+                                    <td>
+                                        @Html.TextAreaFor(model => model.ColumnText, new { @id = "txtEditColumnText", @tabindex = 3, @maxlength = "500", @class = "search-control-Notes-large" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top"><label class="label-two" style="float:right;padding-right:5px;">Notes:</label></td>
+                                    <td>
+                                        @Html.TextAreaFor(model => model.Notes, new { @id = "txtEditNotes", @tabindex = 3, @maxlength = "500", @class = "search-control-Notes-large" })
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2" align="center" class="div-space-two">
+                                        <button type="button" id="btnEdit" onclick="Edit();" value="Save" class="pop-submit-btn">Save</button>
+                                        <a onclick="HidePopup();" style="cursor: pointer;">Cancel</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div id="success" class="alert alert-success" style="display: none;">
+            </div>
+            <div id="failure" class="alert alert-danger" style="display: none;">
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" language="javascript">
+    function checkfile(sender) {
+        var validExts = new Array(".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG");
+        var fileExt = sender.value;
+        fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+        if (validExts.indexOf(fileExt) < 0) {
+            alert("Please select .png .jpg .jpeg files.");
+            $('#' + sender.id).val("");
+            return false;
+        }
+        else return true;
+    }
+</script>

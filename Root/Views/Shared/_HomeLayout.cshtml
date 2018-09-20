@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State Library Of Ohio</title>
+    <link rel="stylesheet" href="~/Content/css/style.css" />
+
+    @*Reference:- Download from "https://getbootstrap.com/docs/4.0/getting-started/download/"*@
+    @*<link rel="stylesheet" href="~/Content/css/bootstrap.min.css" />*@
+
+    @*Reference:- Download from "https://fontawesome.com/v4.7.0/get-started/"*@
+    @*<link href="~/Content/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />*@
+
+    @*Reference:- Download from "https://jqueryui.com/download/resources/download/jquery-ui-themes-1.9.2.zip"*@
+    @*<link rel="stylesheet" href="~/Content/css/jquery-ui.css" />*@
+
+    @*Reference:- Download from "https://code.jquery.com/jquery-3.3.1.min.js"*@
+    @*<script src="~/Content/vendor/jquery/jquery.min.js"></script>*@
+
+    @*Reference:- Download from "https://code.jquery.com/jquery-1.10.0.min.js"*@
+    @*<script src="~/Content/vendor/jquery/jquery-1.10.0.min.js" type="text/javascript"></script>*@
+
+    @*Reference:- Download from "https://code.jquery.com/jquery-ui.min.js"*@
+    @*<script src="~/Content/vendor/jquery/jquery-ui.min.js" type="text/javascript"></script>*@
+
+    @*Reference:- Use "https://www.google-analytics.com/analytics.js"*@
+    @*<script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-103816749-1', 'auto');
+            ga('send', 'pageview');
+
+        </script>*@
+</head>
+<body>
+
+    <div class="main-body-section">
+        <header class="top-header-section">
+            <div class="container">
+                <div class="col-md-6"><div class="left-top-header-section"><a href="https://library.ohio.gov/"><img src="~/Content/images/state-ohio-library-logo.png" class="img-responsive" /></a></div></div>
+                <div class="col-md-6"><div class="right-top-header-section"><img src="~/Content/images/libraries-number-logo.png" class="img-responsive" /></div></div>
+            </div>
+        </header>
+        @RenderBody()
+    </div>
+</body>
+</html>

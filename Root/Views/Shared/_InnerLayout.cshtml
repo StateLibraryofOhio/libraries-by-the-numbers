@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State Library Of Ohio </title>
+    <link rel="icon" href="~/Content/images/favicon.ico" />
+    <link rel="stylesheet" href="~/Content/css/style.css" />
+
+    @*Reference:- Use "https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i"*@
+    @*<link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">*@
+
+    @*Reference:- Download from "https://getbootstrap.com/docs/4.0/getting-started/download/"*@
+    @*<link rel="stylesheet" href="~/Content/css/bootstrap.min.css" />*@
+
+    @*Reference:- Download from "https://fontawesome.com/v4.7.0/get-started/"*@
+    @*<link href="~/Content/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">*@
+
+    @*Reference:- Download from "https://cdnjs.cloudflare.com/ajax/libs/metisMenu/1.1.3/metisMenu.css"*@
+    @*<link href="~/Content/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">*@
+
+    @*Reference:- Download from "https://startbootstrap.com/template-overviews/sb-admin-2/"*@
+    @*<link href="~/Content/dist/css/sb-admin-2.css" rel="stylesheet">*@
+
+    @*Reference:- Download from "http://morrisjs.github.io/morris.js/"*@
+    @*<link href="~/Content/vendor/morrisjs/morris.css" rel="stylesheet">*@
+
+
+    @*Reference:- Use "https://www.google-analytics.com/analytics.js"*@
+    @*<script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+            ga('create', 'UA-103816749-1', 'auto');
+            ga('send', 'pageview');
+
+        </script>*@
+</head>
+<body>
+    <div class="main-body-section">
+        @Html.Action("_Header", "Common");
+        <section id="inner-section">
+            @Html.Partial("_Menu")
+            <div id="page-wrapper">
+                <div id="inner-right-area">
+                    @RenderBody()
+
+                </div>
+            </div>
+        </section>
+    </div>
+    <!--[ footer ] -->
+    @Html.Partial("_Footer")
+    <!-- jQuery -->
+    @*Reference:- Download from "https://code.jquery.com/jquery-3.3.1.min.js"*@
+    @*<script src="~/Content/vendor/jquery/jquery.min.js"></script>*@
+
+    <!-- Bootstrap Core JavaScript -->
+    @*Reference:- Download from "https://getbootstrap.com/docs/4.0/getting-started/download/"*@
+    @*<script src="~/Content/vendor/bootstrap/js/bootstrap.min.js"></script>*@
+
+    <!-- Metis Menu Plugin JavaScript -->
+    @*Reference:- Download from "https://cdnjs.cloudflare.com/ajax/libs/metisMenu/1.1.3/metisMenu.min.js"*@
+    @*<script src="~/Content/vendor/metisMenu/metisMenu.min.js"></script>*@
+
+    <!-- Morris Charts JavaScript -->
+    @*Reference:- Download from "http://dmitrybaranovskiy.github.io/raphael/"*@
+    @*<script src="~/Content/vendor/raphael/raphael.min.js"></script>*@
+
+    @*Reference:- Download from "http://morrisjs.github.io/morris.js/"*@
+    @*<script src="~/Content/vendor/morrisjs/morris.min.js"></script>*@
+    @*<script src="~/Content/data/morris-data.js"></script>*@
+
+    <!-- Custom Theme JavaScript -->
+    @*Reference:- Download from "http://startbootstrap.com/template-overviews/sb-admin-2"*@
+    @*<script src="~/Content/dist/js/sb-admin-2.js"></script>*@
+</body>
+</html>
