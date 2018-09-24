@@ -1,0 +1,220 @@
+﻿@using StateOfOhioLibrary.Models;
+@model CustomTemplateModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+
+<section>
+    <div class="col-md-12">
+        <div class="middle-left-heading">
+            <div class="container">
+                <h1 class="heading-one">Custom Template Selection</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="col-md-12">
+        <div class="container">
+            <div class="col-md-8">
+                <div class="col-md-6">
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td><label class="label-five">Field 1</label></td>
+                            <td>
+                                @Html.DropDownListFor(model => model.CustomColumnIdField1, Model.AvailableCustomColumn, new { @class = "large-input-one", @id = "ddlCustomColumnField1" })
+
+                            </td>
+
+                        </tr>
+                    </table>
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td><label class="label-five">Field 3</label></td>
+                            <td>
+                                @Html.DropDownListFor(model => model.CustomColumnIdField3, Model.AvailableCustomColumn, new { @class = "large-input-one", @id = "ddlCustomColumnField3" })
+
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td><label class="label-five">Field 5</label></td>
+                            <td>
+                                @Html.DropDownListFor(model => model.CustomColumnIdField5, Model.AvailableCustomColumn, new { @class = "large-input-one", @id = "ddlCustomColumnField5" })
+
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </div>
+                <div class="col-md-6">
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td><label class="label-five">Field 2</label></td>
+                            <td>
+                                @Html.DropDownListFor(model => model.CustomColumnIdField2, Model.AvailableCustomColumn, new { @class = "large-input-one", @id = "ddlCustomColumnField2" })
+
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td><label class="label-five">Field 4</label></td>
+                            <td>
+                                @Html.DropDownListFor(model => model.CustomColumnIdField4, Model.AvailableCustomColumn, new { @class = "large-input-one", @id = "ddlCustomColumnField4" })
+
+                            </td>
+
+                        </tr>
+                    </table>
+
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td><label class="label-five">Field 6</label></td>
+                            <td>
+                                @Html.DropDownListFor(model => model.CustomColumnIdField6, Model.AvailableCustomColumn, new { @class = "large-input-one", @id = "ddlCustomColumnField6" })
+
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+
+                <img class="img-responsive" src="/Content/images/sample-template.jpg" />
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="col-md-12">
+        <div class="lower-btn-section">
+            <div class="container">
+                <div class="col-md-5"></div>
+                <div class="col-md-2 btn-section-one">
+                    <button class="btn-red" id="btnSubmit" onclick="Submit()" type="button">DOWNLOAD</button>
+                    <a class="cancel-button" tabindex="5" style="cursor:pointer;" onclick="Back();">Cancel</a>
+                </div>
+                <div class="col-md-5"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    function Back() {
+
+        window.history.back();
+
+    }
+
+    function getParams() {
+
+        var params = {},
+            pairs = document.URL.split('?')
+                   .pop()
+                   .split('&');
+
+        for (var i = 0, p; i < pairs.length; i++) {
+            p = pairs[i].split('=');
+            params[p[0]] = p[1];
+        }
+
+        return params;
+    }
+    function CheckDropDownValues() {
+        var formError = false;
+        var customColumnIdField1 = $('#ddlCustomColumnField1').val();
+        var customColumnIdField2 = $('#ddlCustomColumnField2').val();
+        var customColumnIdField3 = $('#ddlCustomColumnField3').val();
+        var customColumnIdField4 = $('#ddlCustomColumnField4').val();
+        var customColumnIdField5 = $('#ddlCustomColumnField5').val();
+        var customColumnIdField6 = $('#ddlCustomColumnField6').val();
+
+        if (((customColumnIdField1 == customColumnIdField2) && (customColumnIdField1 != 0) && (customColumnIdField2 != 0)) ||
+            ((customColumnIdField1 == customColumnIdField3) && (customColumnIdField1 != 0) && (customColumnIdField3 != 0)) ||
+            ((customColumnIdField1 == customColumnIdField4) && (customColumnIdField1 != 0) && (customColumnIdField4 != 0)) ||
+            ((customColumnIdField1 == customColumnIdField5) && (customColumnIdField1 != 0) && (customColumnIdField5 != 0)) ||
+            ((customColumnIdField1 == customColumnIdField6) && (customColumnIdField1 != 0) && (customColumnIdField6 != 0))
+            || ((customColumnIdField2 == customColumnIdField3) && (customColumnIdField3 != 0) && (customColumnIdField2 != 0)) ||
+            ((customColumnIdField2 == customColumnIdField4) && (customColumnIdField4 != 0) && (customColumnIdField2 != 0)) ||
+            ((customColumnIdField2 == customColumnIdField5) && (customColumnIdField5 != 0) && (customColumnIdField2 != 0)) ||
+            ((customColumnIdField2 == customColumnIdField6) && (customColumnIdField6 != 0) && (customColumnIdField2 != 0))
+            || ((customColumnIdField3 == customColumnIdField4) && (customColumnIdField3 != 0) && (customColumnIdField4 != 0)) ||
+            ((customColumnIdField3 == customColumnIdField5) && (customColumnIdField3 != 0) && (customColumnIdField5 != 0)) ||
+            ((customColumnIdField3 == customColumnIdField6) && (customColumnIdField3 != 0) && (customColumnIdField6 != 0))
+            || ((customColumnIdField4 == customColumnIdField5) && (customColumnIdField4 != 0) && (customColumnIdField5 != 0)) ||
+            ((customColumnIdField4 == customColumnIdField6) && (customColumnIdField4 != 0) && (customColumnIdField6 != 0))
+            || ((customColumnIdField5 == customColumnIdField6)) && (customColumnIdField5 != 0) && (customColumnIdField6 != 0)) {
+            formError = true;
+        }
+        else {
+            formError = false;
+        }
+
+        return formError;
+    }
+    function Submit() {
+        $('#btnSubmit').text("DOWNLOADING...");
+        $('#btnSubmit').css({ width: '245px' });
+        var params = getParams();
+        var libraryId = "";
+        var year = "";
+        var websiteRedirect = false;
+        var params = getParams();
+        if (typeof (params["LibraryId"]) != "undefined") {
+            libraryId = params["LibraryId"];
+        }
+        if (typeof (params["Year"]) != "undefined") {
+            year = params["Year"];
+        }
+        var customColumnIdField1 = $('#ddlCustomColumnField1').val();
+        var customColumnIdField2 = $('#ddlCustomColumnField2').val();
+        var customColumnIdField3 = $('#ddlCustomColumnField3').val();
+        var customColumnIdField4 = $('#ddlCustomColumnField4').val();
+        var customColumnIdField5 = $('#ddlCustomColumnField5').val();
+        var customColumnIdField6 = $('#ddlCustomColumnField6').val();
+        var formError = CheckDropDownValues();
+
+        if (formError == false) {
+            if ((libraryId != 0 && year != null) && (customColumnIdField1 != 0 || customColumnIdField2 != 0 || customColumnIdField3 != 0 || customColumnIdField4 != 0 || customColumnIdField5 != 0 || customColumnIdField6 != 0)) {
+                window.location.href = "/Custom/DownloadPdf?LibraryId=" + libraryId + "&Year=" + year + "&customColumnIdField1=" + customColumnIdField1 + "&customColumnIdField2=" + customColumnIdField2 + "&customColumnIdField3=" + customColumnIdField3 + "&customColumnIdField4=" + customColumnIdField4 + "&customColumnIdField5=" + customColumnIdField5 + "&customColumnIdField6=" + customColumnIdField6;
+                $('#btnSubmit').text("DOWNLOAD");
+                $('#btnSubmit').css({ width: '200px' });
+            }
+            else if (libraryId == 0) {
+                alert("Please select a library");
+                $('#btnSubmit').text("DOWNLOAD");
+                $('#btnSubmit').css({ width: '200px' });
+            }
+            else if (year == null) {
+                alert("Please select year");
+                $('#btnSubmit').text("DOWNLOAD");
+                $('#btnSubmit').css({ width: '200px' });
+            }
+            else if (customColumnIdField1 == 0 && customColumnIdField2 == 0 && customColumnIdField3 == 0 && customColumnIdField4 == 0 && customColumnIdField5 == 0 && customColumnIdField6 == 0) {
+                alert("Please select a field");
+                $('#btnSubmit').text("DOWNLOAD");
+                $('#btnSubmit').css({ width: '200px' });
+            }
+        }
+        else {
+            alert("Please select unique fields.");
+            $('#btnSubmit').text("DOWNLOAD");
+            $('#btnSubmit').css({ width: '200px' });
+        }
+
+
+    }
+</script>

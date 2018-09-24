@@ -1,0 +1,70 @@
+﻿@using StateOfOhioLibrary.Models;
+@model DataModel
+
+<div id="inner-right-top-button-section">
+    <button class="button-green" onclick="ShowAddSection();">New Upload</button>
+</div>
+
+
+<div id="myModal" class="modal fade in" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="HidePopup();">X</span>
+                <span class="pop-heading" style="float:left"></span>
+            </div>
+            <div class="modal-body">
+                <div id="responsivelogin-form">
+                    <div class="search-panel">
+                        <div id="addPopUpSection" style="display: none;">
+                            <table width="100%" border="0" cellpadding="2" cellspacing="2">
+                                <tr>
+                                    <td width="30%"><label>Year:</label></td>
+                                    <td width="70%">
+                                        @Html.DropDownListFor(model => model.DataYear, Model.YearList, new { @id = "DataYear", @style = "width:auto; ", @tabindex = 1 })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label>Name:</label></td>
+                                    <td>@Html.TextBoxFor(model => model.Name, new { @id = "txtName", @tabindex = 2, @maxlength = "100", @class = "search-control-nine" })</td>
+                                </tr>
+                                <tr>
+                                    <td><label>Select File:</label></td>
+                                    <td>
+                                        <input type="file" id="fileData" name="fileData" onchange="checkfile(this);" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" style="border:none; background:none;" ,tabindex="2" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="center" class="div-space-two">
+                                        <button type="button" id="btnAdd" onclick="Add();" value="Save" class="pop-submit-btn">Upload</button>
+                                        <a onclick="HidePopup();" style="cursor: pointer;">Cancel</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div id="success" class="alert alert-success" style="display: none;">
+            </div>
+            <div id="failure" class="alert alert-danger" style="display: none;">
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" language="javascript">
+    function checkfile(sender) {
+        var validExts = new Array(".xlsx", ".xls", ".XLSX", ".XLS");
+        var fileExt = sender.value;
+        fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+        if (validExts.indexOf(fileExt) < 0) {
+            alert("Please select " +
+                     validExts.toString() + " files.");
+            $('#' + sender.id).val("");
+            return false;
+        }
+        else return true;
+    }
+</script>

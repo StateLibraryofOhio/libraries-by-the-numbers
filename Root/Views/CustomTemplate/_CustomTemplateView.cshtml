@@ -1,0 +1,72 @@
+﻿@using StateOfOhioLibrary.Models;
+@model CustomTemplateModel
+@{
+    var enableSSL = System.Configuration.ConfigurationManager.AppSettings["EnableSSl"];
+    string customTemplatePath = System.Configuration.ConfigurationManager.AppSettings["CustomTemplatePath"].ToString();
+    string fileUrl = "";
+    if (enableSSL == "False")
+    {
+        fileUrl = "http://" + HttpContext.Current.Request.ServerVariables["HTTP_HOST"] + customTemplatePath + "\\";
+    }
+    else
+    {
+        fileUrl = "https://" + HttpContext.Current.Request.ServerVariables["HTTP_HOST"] + customTemplatePath + "\\";
+    }
+
+}
+<style>
+    .dateWidth {
+        width: 30%;
+    }
+
+    .iconWidth {
+        width: 4%;
+    }
+</style>
+
+<div class="table-responsive project-stats table-scroll">
+    @{
+        WebGrid grid = new WebGrid(
+        canPage: true,
+        rowsPerPage: Model.CustomTemplate.PageSize,
+        canSort: true,
+        ajaxUpdateContainerId: "grid");
+
+        grid.Bind(Model.CustomTemplate.Content, rowCount: Model.CustomTemplate.TotalRecords, autoSortAndPage: true);
+        grid.Pager(WebGridPagerModes.All);
+
+        @grid.GetHtml(
+                      htmlAttributes: new { id = "grid" },
+                      tableStyle: "table",
+
+                      mode: WebGridPagerModes.All,
+                      fillEmptyRows: false,
+                      columns: grid.Columns(
+
+                      grid.Column(columnName: "SectionName", header: "Field Name", format: (item) => item.SectionName != null ? item.SectionName : "", canSort: false, style: "text-left"),
+                        grid.Column(columnName: "ColumnText", header: "Field Text", format: (item) => item.ColumnText != null ? item.ColumnText.ToString() : "", canSort: false, style: "text-left dateWidth"),
+                          grid.Column(columnName: "Notes", header: "Notes", format: (item) => item.Notes != null ? item.Notes.ToString() : "", canSort: false, style: "text-left dateWidth"),
+
+                      grid.Column(format:
+    @<text>
+        <a onclick="ShowEditSection('@item.CustomTemplateId','@item.CustomColumnId', '@item.FileLocation','@item.Notes','@item.ColumnText');" style="cursor: pointer;"><i class="fa fa-pencil" title="Edit" aria-hidden="true"></i></a>
+    </text>
+                      , style: "text-center iconWidth"),
+                          grid.Column(format:
+    @<text>
+        @if (item.FileLocation != "")
+                            {
+    <a href="@fileUrl@item.FileLocation" download="@item.CustomColumnId" style="cursor: pointer;"><i class="fa fa-download" title="Download" aria-hidden="true"></i></a>
+                            }
+    </text>
+                      , style: "text-center iconWidth")
+                    ,
+                            grid.Column(format:
+    @<text>
+        <a onclick="DeleteCustomTemplate('@item.CustomColumnId')" style="cursor: pointer;"><i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i></a>
+    </text>
+                        , style: "text-center iconWidth")
+                      ))
+    }
+</div>
+

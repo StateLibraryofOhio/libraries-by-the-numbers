@@ -1,0 +1,749 @@
+﻿@using StateOfOhioLibrary.Models;
+@model HomeModel
+@{
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+@*Reference:- Download from "https://github.com/eligrey/FileSaver.js/"*@
+@*<script src="~/Scripts/FileSaver.min.js"></script>*@
+
+<script>
+    $(document).ready(function () {
+
+        var name = $("#txtLibraryName").val();
+
+        if (name != null && name != "") {
+            $.ajax({
+                url: "/Home/BindYear",
+                data: "{ 'name': '" + name + "'}",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    $('#ddlYear').html("");
+                    $('#ddlYear').show();
+                    for (var i = 0; i < data.length; i++) {
+                        var opt = new Option(data[i].DataYear, data[i].DataYear);
+                        $('#ddlYear').append(opt);
+
+                    }
+                    GetLibrayId();
+                }
+            });
+        }     
+    });
+
+    function GetLibrayId() {
+        var name = $("#txtLibraryName").val();
+        $.ajax({
+            url: "/Home/BindLibraryId",
+            data: "{ 'name': '" + name + "'}",
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $("#hdnLibraryId").val(data);
+            }
+        });
+    }
+
+    function GetURLParameter(sParam) {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] == sParam) {
+                return sParameterName[1];
+            }
+        }
+    }
+
+</script>
+
+
+<section>
+    <div class="col-md-12 middle-left-heading">
+        <div class="container">
+            <h1 class="heading-one">View Library Statistics</h1>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="col-md-12 middle-banner-section">
+
+        <div class="container">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 middle-search-section">
+                <form>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td align="center">
+                                @Html.TextBoxFor(model => model.LibraryName, new { @id = "txtLibraryName", @class = "large-input", @placeholder = "Enter Library Name" })
+                                <input type="hidden" id="hdnLibraryId" value="0" />
+                                <select id="ddlYear" class="small-input" style="display:none;"></select>
+                            </td>
+                        </tr>
+                    </table>
+
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</section>
+<section id="checkboxSection">
+    <div class="col-md-12 lower-middle-content-section">
+        <div class="container">
+            <div class="middle-inner-section">
+                <div class="box-one">
+                    <div class="cicle-box-one"> <a class="default-cursor"><img src="/Content/images/icon-one.png" /></a> </div>
+                    <div class="text-section">
+                        <h2 class="heading-two">Library Overview</h2>
+                        <input class="input-checkbox" type="radio" onchange="changeButton(this.value)" name="template" value="LibraryOverview" onclick="" alt="" title="" />
+                    </div>
+                </div>
+                <div class="box-one">
+                    <div class="cicle-box-two"><a class="default-cursor"><img src="~/Content/images/icon-two.png" /></a> </div>
+                    <div class="text-section">
+                        <h2 class="heading-two">Materials and Circulation</h2>
+                        <input class="input-checkbox" type="radio" onchange="changeButton(this.value)" name="template" value="MaterialsandCirculation" onclick="" alt="" title="" />
+                    </div>
+                </div>
+                <div class="box-one">
+                    <div class="cicle-box-three"> <a class="default-cursor"><img src="~/Content/images/icon-three.png" /></a> </div>
+                    <div class="text-section">
+                        <h2 class="heading-two">Technology</h2>
+                        <input class="input-checkbox" type="radio" onchange="changeButton(this.value)" name="template" value="SupportTechnology" onclick="" alt="" title="" />
+                    </div>
+                </div>
+                <div class="box-one">
+                    <div class="cicle-box-four"> <a class="default-cursor"><img src="~/Content/images/icon-four.png" /></a> </div>
+                    <div class="text-section">
+                        <h2 class="heading-two">Programming</h2>
+                        <input class="input-checkbox" type="radio" onchange="changeButton(this.value)" name="template" value="Programming" onclick="" alt="" title="" />
+                    </div>
+                </div>
+                <div class="box-one">
+                    <div class="cicle-box-five"> <a class="default-cursor"><img src="~/Content/images/icon-five.png" /></a> </div>
+                    <div class="text-section">
+                        <h2 class="heading-two">Youth Services</h2>
+                        <input class="input-checkbox" type="radio" onchange="changeButton(this.value)" name="template" value="YouthServices" onclick="" alt="" title="" />
+                    </div>
+                </div>
+                <div class="box-one">
+                    <div class="cicle-box-six"> <a class="default-cursor"><img src="~/Content/images/icon-six.png" /></a> </div>
+                    <div class="text-section">
+                        <h2 class="heading-two">Adult Services</h2>
+                        <input class="input-checkbox" type="radio" onchange="changeButton(this.value)" name="template" value="AdultServices" onclick="" alt="" title="" />
+                    </div>
+                </div>
+                <div class="box-one">
+                    <div class="cicle-box-seven"> <a class="default-cursor"><img src="/Content/images/icon-seven.png" /></a> </div>
+                    <div class="text-section">
+                        <h2 class="heading-two">Custom Template</h2>
+                        <input class="input-checkbox" type="radio" onchange="changeButton(this.value)" name="template" value="CustomTemplate" onclick="" alt="" title="" />
+                    </div>
+                </div>
+                <div class="box-one">
+                    <div class="cicle-box-eight"><a class="default-cursor"><img src="~/Content/images/icon-eight.png" /></a> </div>
+                    <div class="text-section">
+                        <h2 class="heading-two">Multiyear Trend</h2>
+
+                        <input class="input-checkbox" type="radio" onchange="changeButton(this.value)" name="template" value="MultiyearTrend" onclick="" alt="" title="" />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="col-md-12 lower-btn-section" id="divButton">
+        <div class="container">
+            <div class="col-md-5"></div>
+            <div class="col-md-2 btn-section">
+                <button class="btn-red" id="btnDownload" onclick="Submit()" type="button" value="DOWNLOAD">DOWNLOAD</button>
+            </div>
+            <div class="col-md-5"></div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container" id="hiddenHid" style="display:none;">
+        <div style="width:100%; float:left; margin:5px auto 25px auto; border-top:#ddd 1px solid; clear:both;">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div id="responsivelogin-form">
+
+                    <div id="addPopUpSection" style="display: block;">
+                        <table width="100%" border="0" cellpadding="2" cellspacing="2">
+                            <tr>
+                                <td width="40%">
+                                    @Html.DropDownListFor(model => model.CustomColumnId, Model.AvailableCustomColumn, new { @class = "large-input-one custom-input", @id = "ddlCustomColumn", @placeholder = "" })
+                                </td>
+                                <td width="30%">
+                                    <select id="ddlStartYear" class="small-input custom-small-input"></select>
+                                </td>
+                                <td width="30%">
+                                    <select id="ddlEndYear" class="small-input custom-small-input"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" align="center">
+                                    <button type="button" id="btnAdd" onclick="DownloadMultiyear();" value="Save" class="btn-red" style="outline:0;">DOWNLOAD</button>
+                                    <button class="btn-red" onclick="HidePopup();" style="border:none; background:no-repeat; color:#000; border-radius:0px; box-shadow:none; outline:0; font-size:20px; text-decoration:underline;">CANCEL</button>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="col-md-12 lower-img-section">
+        <div class="container">
+            <div class="col-md-4"></div>
+            <div class="col-md-4"><div class="center-lower-logo-section"><a href=""><img src="~/Content/images/lower-logo.png" class="img-responsive" /></a></div></div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+</section>
+
+<div id="myModal" class="modal fade in" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog custom-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="HidePopup();">X</span>
+                <span class="pop-heading" style="float:left"></span>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div id="success" class="alert alert-success" style="display: none;">
+            </div>
+            <div id="failure" class="alert alert-danger" style="display: none;">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Java script reference files for google charts-->
+@*Reference:- Download from "https://code.highcharts.com/highcharts.src.js"*@
+@*<script src="~/Scripts/Chart/highchart.js"></script>*@
+
+@*Reference:- Download from "http://code.highcharts.com/modules/exporting.js"*@
+@*<script src="~/Scripts/Chart/exporting.js"></script>*@
+
+@*Reference:- Download from "http://canvg.googlecode.com/svn/trunk/rgbcolor.js"*@
+@*<script type="text/javascript" src="~/Scripts/rgbcolor.js"></script>*@
+
+@*Reference:- Download from "http://canvg.googlecode.com/svn/trunk/canvg.js"*@
+@*<script type="text/javascript" src="~/Scripts/canvg.js"></script>*@
+
+<form id="formChart">
+    <div id="container" style="width:550px; height:300px; margin: 0 auto;display:none;"></div>
+    <div id="containerLibraryOverview" style="width:200px; height:200px; margin: 0 auto;display:none;"></div>
+    <div id="containerProgramming" style="width:200px; height:200px; margin: 0 auto;display:none;"></div>
+    <input type="hidden" name="chartImage" id="chartImage" />
+
+    <img id="binaryImage" />
+</form>
+<script type="text/javascript">
+
+    var modal = document.getElementById('hiddenHid');
+
+
+    function ShowAddSection() {
+        $(".pop-heading").text("Multiyear Trend ");
+        modal.style.display = "block";
+        var name = $('#txtLibraryName').val();
+        $.ajax({
+            url: "/Home/BindYear",
+            data: "{ 'name': '" + name + "'}",
+            dataType: "json",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $('#ddlStartYear').html('');
+                $('#ddlEndYear').html('');
+                $('#ddlStartYear').append("<option value='0'>Start Year</option>");
+                $('#ddlEndYear').append("<option value='0'>End Year</option>");
+
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].DataYear, data[i].DataYear);
+                    $('#ddlStartYear').append(opt);
+                }
+                for (var i = 0; i < data.length; i++) {
+                    var opt = new Option(data[i].DataYear, data[i].DataYear);
+                    $('#ddlEndYear').append(opt);
+                }
+            }
+        });
+    }
+
+
+    function HidePopup() {
+        modal.style.display = "none";
+
+        $('#divButton').show();
+        $("#btnAdd").text('DOWNLOAD');
+        $("#btnAdd").css({ width: '200px' });
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+
+        }
+    }
+
+    function ValidateMultiyearTrendForm(libraryName, libraryId, startYear, endYear, statistics) {
+
+        if (libraryName == "" || libraryId == 0) {
+            alert("Please enter Library Name");
+            return false;
+        }
+        else if (startYear == 0) {
+            alert("Please select a start year.");
+            return false;
+        }
+        else if (endYear == 0) {
+            alert("Please select a end year.");
+            return false;
+        }
+        else if (statistics == 0) {
+            alert("Please select a library statistics.");
+            return false;
+        }
+        else if (parseInt(startYear) > parseInt(endYear)) {
+            alert("Start year should be less than the End year");
+            return false;
+        }
+        return true;
+    }
+
+
+    function DownloadMultiyear() {
+        $("#btnAdd").text('DOWNLOADING...');
+        $("#btnAdd").css({ width: '245px' });
+        var libraryName = $("#txtLibraryName").val();
+        var libraryId = $("#hdnLibraryId").val();
+        var startYear = $('#ddlStartYear').val();
+        var endYear = $('#ddlEndYear').val();
+        var statistics = $("#ddlCustomColumn").val();
+
+        if (ValidateMultiyearTrendForm(libraryName, libraryId, startYear, endYear, statistics)) {
+
+            var url = window.location.protocol + "//" + window.location.host + "/MultiYearTrend/GeneratePDF?libraryName=" + encodeURIComponent(libraryName) + "&statistics=" + statistics + "&startYear=" + startYear + "&endYear=" + endYear;
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                processData: false,
+                cache: false,
+                contentType: false,
+                success: function (data) {
+                    if (data != '') {
+                        var byteString = atob(data);
+                        var ab = new ArrayBuffer(byteString.length);
+                        var ia = new Uint8Array(ab);
+                        for (var i = 0; i < byteString.length; i++) {
+                            ia[i] = byteString.charCodeAt(i);
+                        }
+                        var blob = new Blob([ia], { type: "application/pdf" });
+                        saveAs(blob, libraryName + "(Multi Year Trend " + startYear + " - " + endYear + ")" + ".pdf");
+                        HidePopup();
+                        $("#btnAdd").text('DOWNLOAD');
+                        $("#btnAdd").css({ width: '200px' });
+                    }
+                },
+                error: function (response) {
+                    alert("An error has occurred.");
+                    $("#btnAdd").text('DOWNLOAD');
+                    $("#btnAdd").css({ width: '200px' });
+                }
+            });
+
+        }
+    }
+
+</script>
+<script type="text/javascript">
+    var width = 1000;
+
+    $(function () {
+        $(document).ready(function () {
+
+        });
+
+    });
+
+</script>
+<script type="text/javascript">
+    (function (window) {
+
+        function ExportInitializator() {
+            var exp = {};
+
+            var EXPORT_WIDTH = 1000;
+
+            exp.highchartsSVGtoImage = function (chart, callback) {
+                var svg = chart.highcharts().getSVG();
+                var canvas = document.createElement('canvas');
+                canvas.width = chart.width();
+                canvas.height = chart.height();
+                var ctx = canvas.getContext('2d');
+
+                var img = document.createElement('img');
+
+                img.onload = function () {
+                    ctx.drawImage(img, 0, 0);
+                    callback(canvas.toDataURL('image/png'));
+                };
+
+                img.setAttribute('src', 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg))));
+            };
+
+
+            exp.highchartsCustomSVGtoImage = function (chart, callback) {
+                if (!chart) {
+                    console.error("No chart given ");
+                }
+                var render_width = EXPORT_WIDTH;
+                var render_height = render_width * chart.chartHeight / chart.chartWidth;
+
+                var svg = chart.getSVG({
+                    exporting: {
+                        sourceWidth: chart.chartWidth,
+                        sourceHeight: chart.chartHeight
+                    }
+                });
+
+
+
+                var canvas = document.createElement('canvas');
+                canvas.height = render_height;
+                canvas.width = render_width;
+                var image = new Image();
+                image.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
+                console.log(image);
+                image.addEventListener('load', function () {
+                    console.log(chart);
+                    canvas.getContext('2d').drawImage(this, 0, 0, render_width, render_height);
+                    callback(canvas.toDataURL('image/png'));
+                }, false);
+
+                image.src = 'data:image/svg+xml;base64,' + window.btoa(svg);
+            };
+
+            exp.nativeSVGtoImage = function (DOMObject, callback, format) {
+                if (!DOMObject.nodeName) {
+                    throw new error("Se requiere un objeto DOM de tipo SVG. Obtener con document.getElementById o un selector de jQuery $(contenedor).find('svg')[0]");
+                }
+
+                var svgData = new XMLSerializer().serializeToString(DOMObject);
+                var canvas = document.createElement("canvas");
+                canvas.width = $(DOMObject).width();
+                canvas.height = $(DOMObject).height();
+                var ctx = canvas.getContext("2d");
+                var img = document.createElement("img");
+                img.setAttribute("src", "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgData))));
+                img.onload = function () {
+                    ctx.drawImage(img, 0, 0);
+
+                    if (format === "jpeg" || format === "jpg") {
+                        callback(canvas.toDataURL("image/jpeg"));
+                    } else {
+                        callback(canvas.toDataURL("image/png"));
+                    }
+                };
+                return true;
+            };
+
+            return exp;
+        }
+
+        if (typeof (highchartsExport) === 'undefined') {
+            window.highchartsExport = new ExportInitializator();
+        }
+    })(window);
+
+    function redrawConnectors() {
+        var chart = this,
+            d;
+
+        Highcharts.each(chart.series[0].data, function (point, i) {
+            if (point.connector) {
+                d = point.connector.d.split(' ');
+                d = [d[0], d[1], d[2], d[10], d[11], d[12]];
+                point.connector.attr({
+                    d: d
+                });
+            }
+        });
+    }
+
+    function Submit() {
+        var libraryId = $('#hdnLibraryId').val();
+        var libraryName = $('#txtLibraryName').val();
+        var checkedValue = $("#checkboxSection input:radio:checked").map(function () {
+            return $(this).val();
+        }).get();
+        var year = $('#ddlYear').val();
+        if (libraryName == "") {
+            alert("Please enter Library Name");
+        }
+        else if (checkedValue == "") {
+            alert("Please select a Template.");
+        }
+        else if (year == "" || year == null) {
+            alert("Please select a year.");
+        }
+        else if (checkedValue == "CustomTemplate") {
+            window.location.href = "/custom?LibraryId=" + libraryId + "&Year=" + year;
+        }
+        else if (checkedValue == "MultiyearTrend") {
+            ShowAddSection();
+            $('#divButton').hide();
+        }
+        else {
+            $("#btnDownload").text('DOWNLOADING...');
+            $("#btnDownload").css({ width: '245px' });
+            if (checkedValue == "MaterialsandCirculation" || checkedValue == "LibraryOverview" || checkedValue == "Programming") {
+                var dvContainer = "";
+                $.getJSON("/Home/GetChartData?name=" + encodeURIComponent(libraryName) + "&type=" + checkedValue + "&year=" + year, function (data) {
+
+                    if (data != "False") {
+                        if (checkedValue == "MaterialsandCirculation") {
+                            Highcharts.setOptions({
+                                colors: ['#E14A38', '#EB6B57', '#A38F84', '#D1D6D8', '#B8332F']
+                            });
+                            dvContainer = "container";
+                        }
+                        else if (checkedValue == "LibraryOverview") {
+                            Highcharts.setOptions({
+                                colors: ['#037F7C', '#09A6A5']
+                            });
+                            dvContainer = "containerLibraryOverview";
+                        }
+                        else if (checkedValue == "Programming") {
+                            Highcharts.setOptions({
+                                colors: ['#9366AB', '#563A82']
+                            });
+                            dvContainer = "containerProgramming";
+                        }
+
+                        var chart, counter = 0;
+                        chart = new Highcharts.Chart({
+                            chart: {
+                                renderTo: dvContainer,
+                                plotBackgroundColor: null,
+                                plotBorderWidth: null,
+                                plotShadow: false,
+                                events: {
+                                    load: redrawConnectors,
+                                    redraw: redrawConnectors
+                                }
+                            },
+                            credits: {
+                                enabled: false
+                            },
+                            title: {
+                                text: ''
+                            },
+                            width: 550,
+                            height: 300,
+
+                            plotOptions: {
+                                pie: {
+                                    dataLabels: {
+                                        enabled: true,
+                                        color: '#000000',
+                                        connectorColor: '#000000',
+                                        useHTML: true,
+                                        formatter: function () {
+                                            counter++;
+                                            return '<div class="datalabel" style="color:#28334E;font-size:10px;font-family:Arial;">' + this.point.name + '</div>';
+                                        }
+                                    }
+                                }
+                            },
+                            series: [{
+                                type: 'pie',
+                                data: data,
+
+                            }],
+                            exporting: {
+                                enabled: true
+                            },
+
+                        });
+                        $(".highcharts-credits").hide();
+                        highchartsExport.highchartsSVGtoImage($("#" + dvContainer), function (uri) {
+                            $("#chartImage").val(uri);
+                            var url = window.location.protocol + "//" + window.location.host + "/Home/GeneratePDF?name=" + encodeURIComponent(libraryName) + "&type=" + checkedValue + "&year=" + year;
+                            var form = $('#formChart')[0];
+                            var fd = new FormData(form);
+
+                            $.ajax({
+                                type: "POST",
+                                url: url,
+                                data: fd,
+                                processData: false,
+                                cache: false,
+                                contentType: false,
+                                success: function (data) {
+                                    if (data != '') {
+                                        $('#ddlYear').show();
+                                        $("#btnDownload").text('DOWNLOAD');
+                                        $("#btnDownload").css({ width: '200px' });
+                                        var byteString = atob(data);
+                                        var ab = new ArrayBuffer(byteString.length);
+                                        var ia = new Uint8Array(ab);
+                                        for (var i = 0; i < byteString.length; i++) {
+                                            ia[i] = byteString.charCodeAt(i);
+                                        }
+                                        var blob = new Blob([ia], { type: "application/pdf" });
+                                        saveAs(blob, libraryName + "(" + checkedValue + ")" + ".pdf");
+                                    }
+                                },
+                                error: function (response) {
+                                    $("#btnDownload").text('DOWNLOAD');
+                                    $("#btnDownload").css({ width: '200px' });
+                                    alert("Please select the full Library name.");
+                                }
+                            });
+                        });
+                    }
+                    else {
+                        $("#btnDownload").text('DOWNLOAD');
+                        $("#btnDownload").css({ width: '200px' });
+                        alert("Please select the full Library name.");
+                    }
+
+                });
+            }
+            else {
+                var url = window.location.protocol + "//" + window.location.host + "/Home/GeneratePDF?name=" + encodeURIComponent(libraryName) + "&type=" + checkedValue + "&year=" + year;
+
+                if (year == null || year == "") {
+                    alert(year);
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    processData: false,
+                    cache: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data != '') {
+                            $('#ddlYear').show();
+                            $("#btnDownload").text('DOWNLOAD');
+                            $("#btnDownload").css({ width: '200px' });
+                            var byteString = atob(data);
+                            var ab = new ArrayBuffer(byteString.length);
+                            var ia = new Uint8Array(ab);
+                            for (var i = 0; i < byteString.length; i++) {
+                                ia[i] = byteString.charCodeAt(i);
+                            }
+                            var blob = new Blob([ia], { type: "application/pdf" });
+                            saveAs(blob, libraryName + "(" + checkedValue + ")" + ".pdf");
+                        }
+                    },
+                    error: function (response) {
+                        $("#btnDownload").text('DOWNLOAD');
+                        $("#btnDownload").css({ width: '200px' });
+                        alert("Please select the full Library name.");
+                    }
+                });
+            }
+
+        }
+
+    }
+    function getBase64Image(imgElem) {
+        // imgElem must be on the same server otherwise a cross-origin error will be thrown "SECURITY_ERR: DOM Exception 18"
+        var canvas = document.createElement("canvas");
+        canvas.width = imgElem.clientWidth;
+        canvas.height = imgElem.clientHeight;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(imgElem, 0, 0);
+        var dataURL = canvas.toDataURL("image/png");
+        return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+    }
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $("#txtLibraryName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '/Home/AutoComplete/',
+                    data: "{ 'prefix': '" + request.term + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+
+                        response($.map(data, function (item) {
+                            return item;
+                        }))
+
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            },
+            select: function (e, i) {
+
+                var name = i.item.val;
+                $("#hdnLibraryId").val(i.item.libraryId);
+
+                $.ajax({
+                    url: "/Home/BindYear",
+                    data: "{ 'name': '" + name + "'}",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+
+                        $('#ddlYear').html("");
+                        $('#ddlYear').show();
+                        for (var i = 0; i < data.length; i++) {
+                            var opt = new Option(data[i].DataYear, data[i].DataYear);
+                            $('#ddlYear').append(opt);
+
+                        }
+                    }
+                });
+            },
+
+        });
+    });
+    function changeButton(checkedValue) {
+        if (checkedValue == "MultiyearTrend") {
+            $("#btnDownload").text('NEXT');
+        }
+        else if (checkedValue == "CustomTemplate") {
+            $("#btnDownload").text('NEXT');
+            HidePopup();
+        }
+        else {
+            HidePopup();
+            $("#btnDownload").text('DOWNLOAD');
+        }
+
+    }
+</script>

@@ -1,0 +1,58 @@
+﻿@model StateOfOhioLibrary.Models.LoginModel
+@{
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    ViewBag.Title = "Login";
+}
+<style>
+    li {
+        list-style: none !important;
+    }
+</style>
+@using (Html.BeginForm("Index", "Login", FormMethod.Post))
+{
+    <div class="container">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 login-form-section">
+            <form>
+
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    @Html.ValidationSummary(false, string.Empty, new { @class = "alert alert-danger" })
+                }
+                else
+                {
+                    if (Model.LoginStatus != null && Model.LoginStatus.ToString() != "Login Successful.")
+                    {
+                        <div class="shadow-container">
+                            <div class="alert alert-danger">@Model.LoginStatus</div>
+                        </div>
+                    }
+                    else
+                    {
+
+                    }
+
+                }
+
+                @Html.AntiForgeryToken()
+
+                @Html.TextBoxFor(m => m.UserName, new { @tabindex = "1", @class = "medium-input", placeholder = "Email", @maxlength = "50", @autofocus = "autofocus", @autocomplete = "off", @kl_virtual_keyboard_secure_input = "on" })
+                @Html.PasswordFor(m => m.Password, new { @tabindex = "2", @class = "medium-input", placeholder = "Password", @maxlength = "20", @kl_virtual_keyboard_secure_input = "on" })
+
+                @Html.HiddenFor(x => x.ReturnUrl)
+                <div class="btn-section-two">
+                    <button class="btn-one" type="submit">Login</button>
+                    <a class="link-one" onclick="Cancel();" style="cursor:pointer;">Reset</a><br />
+                    <a class="link-two" href="/ForgotPassword">Forgot your password?</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <script>
+        function Cancel() {
+            $("#UserName").val("");
+            $("#Password").val("");
+        }
+    </script>
+}

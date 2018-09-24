@@ -1,0 +1,205 @@
+﻿@using StateOfOhioLibrary.Models;
+@using System.Web.Configuration;
+@model DataModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_InnerLayout.cshtml";
+    string spreadsheetPath = "";
+    string libraryDataHistoryPath = WebConfigurationManager.AppSettings["LibraryDataHistoryPath"];
+    bool isSSlEnabled = Convert.ToBoolean(WebConfigurationManager.AppSettings["EnableSSl"]);
+    if (isSSlEnabled)
+    {
+        spreadsheetPath = "https://" + HttpContext.Current.Request.ServerVariables["HTTP_HOST"] + libraryDataHistoryPath + "\\";
+    }
+    else
+    {
+        spreadsheetPath = "http://" + HttpContext.Current.Request.ServerVariables["HTTP_HOST"] + libraryDataHistoryPath + "\\";
+
+    }
+
+}
+@*Reference:- Download from "https://code.jquery.com/jquery-3.3.1.min.js"*@
+@*<script src="~/Content/vendor/jquery/jquery.min.js"></script>*@
+
+<div class="col-md-12 clearfix">
+    <h1>Data Upload History</h1>
+
+    @Html.Partial("_FileUpload", Model)
+</div>
+@if (Model != null)
+{
+    <div class="col-md-3">
+        <div id="data-display-area">
+            <h5 id="dataCount">@Model.TotalNoOfData</h5>
+            <h6>Uploads </h6>
+        </div>
+
+    </div>
+    <div class="col-md-9">
+        <div id="inner-display-area-right">
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="panel panel-white">
+                        <div class="panel-body" id="divGrid">
+                            @if (Model.DataList.TotalRecords > 0)
+                            {
+                                @Html.Partial("_DataView", Model)
+                            }
+                            else
+                            {
+                                <p>@("No record(s) found.")</p>
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
+
+<script>
+    var modal = document.getElementById('myModal');
+
+
+    function ShowAddSection() {
+
+        ResetAddForm();
+
+        $(".pop-heading").text("Upload Data");
+        modal.style.display = "block";
+    }
+
+
+    function HidePopup() {
+        modal.style.display = "none";
+
+    }
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+
+        }
+    }
+
+    function ResetAddForm() {
+
+        $('#addPopUpSection').css("display", "block");
+
+        $('#DataYear').val("0");
+        $('#fileData').val("");
+
+        $('#DataYear').css('border-color', '#dce1e4');
+
+        $('#success').css("display", "none");
+        $('#failure').css("display", "none");
+
+        $('#success').html("");
+        $('#failure').html("");
+    }
+
+
+    function Add() {
+        $('#success').css("display", "none");
+        $('#failure').css("display", "none");
+
+        $('#success').html("");
+        $('#failure').html("");
+        var formError = ValidateAddForm();
+        if (formError == false) {
+
+            $("#btnAdd").text('Uploading...');
+
+            var formDataYearValue = $('#DataYear').val();
+            var formNameValue = $('#txtName').val();
+
+            var formData = new FormData();
+            var totalFiles = document.getElementById("fileData").files.length;
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById("fileData").files[i];
+                fileName = file.name;
+
+                formData.append("fileData", file);
+            }
+            var url = window.location.protocol + "//" + window.location.host + "/Data/AddLibraryData?year=" + formDataYearValue + "&name=" + formNameValue;
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: formData,
+                processData: false,
+                cache: false,
+                contentType: false,
+                success: function (data) {
+
+                    if (data != "" && data.indexOf("successfully")) {
+                        $('#success').html("Data has been uploaded successfully.");
+                        $('#success').css("display", "block");
+                        $('#DataYear').val("0");
+                        $('#fileData').val("");
+                        $('#txtName').val("");
+                        $("#btnAdd").text('Upload');
+                        var datacount = Number($('#dataCount').html()) + 1;
+                        $('#dataCount').html(datacount);
+                        $('#divGrid').load('/Data/DataList');
+
+
+
+                    }
+                    else if (data == "Login") {
+                        window.location.href = "/Login?ReturnUrl=/Data";
+                    }
+                    else {
+                        $('#failure').html("An error has occurred.");
+                        $('#failure').css("display", "block");
+                        $("#btnAdd").text('Upload');
+                        console.log('An error has occurred.');
+                    }
+                },
+                error: function (response) {
+                    $('#failure').html("An error has occurred.");
+                    $('#failure').css("display", "block");
+                    $("#btnAdd").text('Upload');
+                }
+            });
+        }
+
+    }
+
+
+    function ValidateAddForm() {
+        var formError = false;
+        var formYear = $('#DataYear');
+        var formYearValue = $.trim(formYear.val());
+
+        var formFileUpload = $('#fileData').val();
+        if (formFileUpload == "") {
+            $('#failure').html("Please select a file.");
+            $('#failure').css("display", "block");
+            formError = true;
+        }
+
+        if (formYearValue == '0') {
+            $('#failure').html("Year is required.");
+            $('#failure').css("display", "block");
+            formError = true;
+        }
+        else {
+            formYear.css('border-color', '#e4e4e4');
+        }
+        var formName = $('#txtName').val();
+        if (formName == "") {
+            $('#failure').html("Name is required.");
+            $('#failure').css("display", "block");
+            formError = true;
+        }
+
+        return formError;
+    }
+
+</script>

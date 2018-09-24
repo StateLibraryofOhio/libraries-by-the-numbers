@@ -1,0 +1,58 @@
+﻿
+@using StateOfOhioLibrary.Models;
+@using System.Web.Configuration;
+@model DataModel
+@{
+    string spreadsheetPath = "";
+    string libraryDataHistoryPath = WebConfigurationManager.AppSettings["LibraryDataHistoryPath"];
+    bool isSSlEnabled = Convert.ToBoolean(WebConfigurationManager.AppSettings["EnableSSl"]);
+    if (isSSlEnabled)
+    {
+        spreadsheetPath = "https://" + HttpContext.Current.Request.ServerVariables["HTTP_HOST"] + libraryDataHistoryPath + "\\";
+    }
+    else
+    {
+        spreadsheetPath = "http://" + HttpContext.Current.Request.ServerVariables["HTTP_HOST"] + libraryDataHistoryPath + "\\";
+
+    }
+}
+<style>
+    .dateWidth {
+        width: 30%;
+    }
+
+    .iconWidth {
+        width: 4%;
+    }
+</style>
+<div class="table-responsive project-stats">
+    @{
+        WebGrid grid = new WebGrid(
+                canPage: true,
+                rowsPerPage: Model.DataList.PageSize,
+                canSort: true,
+                ajaxUpdateContainerId: "grid");
+
+        grid.Bind(Model.DataList.Content, rowCount: Model.DataList.TotalRecords, autoSortAndPage: true);
+        grid.Pager(WebGridPagerModes.All);
+
+        @grid.GetHtml(
+                                                htmlAttributes: new { id = "grid" },
+                                                tableStyle: "table",
+                                                mode: WebGridPagerModes.All,
+                                                fillEmptyRows: false,
+                                                columns: grid.Columns(
+                                                grid.Column(columnName: "UploadDate", header: "Date & Time", format: (item) => item.UploadDate != null
+                                                        ? item.UploadDate.ToString("MM/dd/yy @ hh:mm tt") : "", canSort: true, style: "text-left"),
+                                                         grid.Column(columnName: "DataYear", header: "Year", format: (item) => item.DataYear != null
+                                                          ? item.DataYear : "", canSort: true, style: "text-left"),
+                                                grid.Column(columnName: "Name", header: "Name", format: (item) => item.Name != null
+                                                         ? item.Name : "", canSort: true, style: "text-left"),
+                                            grid.Column(format:
+                                            @<text><a style="text-decoration:underline;" href="@spreadsheetPath/@item.DataUploadHistoryId/@item.UploadedFileName">@item.UploadedFileName</a></text> , style: "text-left")
+
+                                             ))
+    }
+
+
+</div>

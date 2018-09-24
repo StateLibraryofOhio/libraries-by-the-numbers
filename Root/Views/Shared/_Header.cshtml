@@ -1,0 +1,41 @@
+﻿@using StateOfOhioLibrary.Models;
+@model CommonModel
+<header class="header">
+    <div class="top-header-section">
+        <div class="col-md-4"><div class="inner-left-top-header-section"><a href="/Home"><img src="~/Content/images/state-ohio-library-logo.png" /></a></div></div>
+        <div class="col-md-8">
+            <div id="inner-right-top-header-section">
+                @if (Model.IsLoggedIn)
+                {
+                    <button onclick="ChangePassword();">Change Password</button>
+                    <ul>
+                        <li>@Model.Type</li>
+                        <li>|</li>
+                        <li><a href="#" style="color:#cc381b;" onclick="Logoff();">Logout</a></li>
+                    </ul>
+                }
+                else
+                {
+                    <ul>
+                        <li><a href="/Login" style="color:#cc381b;">Login</a></li>
+                    </ul>
+                }
+
+            </div>
+        </div>
+    </div>
+</header>
+
+<script>
+    function ChangePassword() {
+        window.location.href = "/ChangePassword";
+    }
+    function Logoff() {
+        sessionvariable = '@Session["User"]';
+
+        if (sessionvariable != "")
+            window.location.href = "/Common/LogOff";
+        else
+            window.location.href = "/Login";
+    }
+</script>
